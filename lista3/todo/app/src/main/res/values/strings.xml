@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">todo</string>
+<string-array name="images_array">
+    <item>sport</item>
+    <item>sport2</item>
+    <item>work</item>
+    <item>visit</item>
+    <item>event</item>
+    <item>house</item>
+</string-array>
+</resources>
