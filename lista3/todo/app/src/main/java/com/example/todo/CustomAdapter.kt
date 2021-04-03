@@ -33,13 +33,20 @@ class CustomAdapter(supportFragmentManager: FragmentManager) : RecyclerView.Adap
         longClickListenerAdapter = null
 
         val images = arrayOf(
-                R.drawable.sport,
-                R.drawable.sport2,
+                R.drawable.beers,
+                R.drawable.cycling,
+                R.drawable.eye,
+                R.drawable.girl,
+                R.drawable.hairdresser,
+                R.drawable.heart,
+                R.drawable.kid,
+                R.drawable.studying,
+                R.drawable.tooth,
+                R.drawable.trip,
                 R.drawable.work,
-                R.drawable.visit,
-                R.drawable.event,
-                R.drawable.house
+                R.drawable.workout
         )
+
         val i: Int = elementsList[position][0].toInt()
         holder.image.setImageResource(images[i])
         holder.title.text = elementsList[position][1]
@@ -57,7 +64,7 @@ class CustomAdapter(supportFragmentManager: FragmentManager) : RecyclerView.Adap
 
     fun delete(index: Int) {
         elementsList.removeAt(index)
-        notifyItemRemoved(index);
+        notifyItemRemoved(index)
         notifyItemRangeChanged(index, elementsList.size)
         notifyDataSetChanged()
     }

@@ -48,11 +48,11 @@ class AddActivity : AppCompatActivity() {
         finish()
     }
 
-    fun initialiseSpinner() {
+    private fun initialiseSpinner() {
         val spinner: Spinner = findViewById(R.id.spinner)
         ArrayAdapter.createFromResource(
                 this,
-                R.array.images_array,
+                R.array.images,
                 android.R.layout.simple_spinner_item
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -64,12 +64,18 @@ class AddActivity : AppCompatActivity() {
                 val image = findViewById<ImageView>(R.id.enterImage)
 
                 val images = arrayOf(
-                        R.drawable.sport,
-                        R.drawable.sport2,
+                        R.drawable.beers,
+                        R.drawable.cycling,
+                        R.drawable.eye,
+                        R.drawable.girl,
+                        R.drawable.hairdresser,
+                        R.drawable.heart,
+                        R.drawable.kid,
+                        R.drawable.studying,
+                        R.drawable.tooth,
+                        R.drawable.trip,
                         R.drawable.work,
-                        R.drawable.visit,
-                        R.drawable.event,
-                        R.drawable.house
+                        R.drawable.workout
                 )
 
                 image.setImageResource(images[position])

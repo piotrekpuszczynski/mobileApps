@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">todo</string>
-<string-array name="images_array">
-    <item>sport</item>
-    <item>sport2</item>
-    <item>work</item>
-    <item>visit</item>
-    <item>event</item>
-    <item>house</item>
-</string-array>
+    <array name="images">
+        <item>beers</item>
+        <item>cycling</item>
+        <item>eye</item>
+        <item>girl</item>
+        <item>hairdresser</item>
+        <item>heart</item>
+        <item>kid</item>
+        <item>studying</item>
+        <item>tooth</item>
+        <item>trip</item>
+        <item>work</item>
+        <item>workout</item>
+    </array>
 </resources>
