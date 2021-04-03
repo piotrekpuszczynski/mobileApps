@@ -5,24 +5,14 @@ import android.os.Bundle
 import android.view.View
 import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
-import android.widget.CalendarView.OnDateChangeListener
 import androidx.appcompat.app.AppCompatActivity
 
 class AddActivity : AppCompatActivity() {
-    var Day = ""
-    var Month = ""
-    var Year = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add)
-        initializeSpinner()
-
-        findViewById<CalendarView>(R.id.enterDate).setOnDateChangeListener(OnDateChangeListener { view, year, month, dayOfMonth ->
-            Day = dayOfMonth.toString()
-            Month = month.toString()
-            Year = year.toString()
-        })
+        initialiseSpinner()
     }
 
     fun cancel(view: View) {
@@ -40,19 +30,25 @@ class AddActivity : AppCompatActivity() {
         val title: String = findViewById<EditText>(R.id.enterTitle).text.toString()
         myIntent.putExtra("title", title)
 
-        val date= "$Day/$Month/$Year"
+        val picker = findViewById<DatePicker>(R.id.enterDate)
+        val date = "${picker.dayOfMonth}/${picker.month + 1}/${picker.year}"
         myIntent.putExtra("date", date)
 
-        val linearLayout = findViewById<LinearLayout>(R.id.linearLayout)
-        val timeView = linearLayout.getChildAt(0) as TextView
-        val time: String = timeView.text.toString()
+        val timePicker = findViewById<TimePicker>(R.id.getTime)
+        val hour = timePicker.hour.toString()
+        var minute = timePicker.minute.toString()
+        if(minute.length == 1) {
+            minute = "0$minute"
+        }
+
+        val time= "$hour:$minute"
         myIntent.putExtra("time", time)
 
         setResult(RESULT_OK, myIntent)
         finish()
     }
 
-    fun initializeSpinner() {
+    fun initialiseSpinner() {
         val spinner: Spinner = findViewById(R.id.spinner)
         ArrayAdapter.createFromResource(
                 this,
@@ -79,26 +75,7 @@ class AddActivity : AppCompatActivity() {
                 image.setImageResource(images[position])
             }
 
-            override fun onNothingSelected(parentView: AdapterView<*>?) {
-            }
+            override fun onNothingSelected(parentView: AdapterView<*>?) {}
         }
-    }
-
-    fun setTime(view: View) {
-        val myIntent = Intent(this, SetTimeActivity::class.java)
-        startActivityForResult(myIntent, CODE)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == CODE) {
-            val time: String = data?.getStringExtra("time").toString()
-
-            findViewById<TextView>(R.id.enterTime).text = time
-        }
-    }
-
-    companion object {
-        const val CODE = 99
     }
 }

@@ -2,20 +2,22 @@ package com.example.todo
 
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
+
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         val list = findViewById<RecyclerView>(R.id.todoList)
         list.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        list.adapter = CustomAdapter()
+        list.adapter = CustomAdapter(supportFragmentManager)
     }
 
     fun createNew(view: View) {
@@ -40,6 +42,7 @@ class MainActivity : AppCompatActivity() {
             val adapter = findViewById<RecyclerView>(R.id.todoList).adapter as CustomAdapter
             adapter.add(element.toList())
             adapter.notifyDataSetChanged()
+
         }
     }
 
