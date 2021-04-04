@@ -17,7 +17,7 @@
     </array>
 
     <array name="sort">
-        <item>most important</item>
+        <item>priority</item>
         <item>time</item>
         <item>time desc</item>
         <item>icon</item>

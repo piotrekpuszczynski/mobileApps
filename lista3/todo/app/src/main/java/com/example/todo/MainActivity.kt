@@ -4,10 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.ImageView
-import android.widget.Spinner
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -79,7 +76,13 @@ class MainActivity : AppCompatActivity() {
                 val list = findViewById<RecyclerView>(R.id.todoList)
                 val adapter = list.adapter as CustomAdapter
 
-                adapter.sortTime()
+                val selectedSort = selectedItemView as TextView
+                when(selectedSort.text) {
+                    "priority" -> adapter.sortByPriority()
+                    "time" -> adapter.sortByTime()
+                    "time desc" -> adapter.sortByTimeDesc()
+                    "icon" -> adapter.sortByIcon()
+                }
             }
 
             override fun onNothingSelected(parentView: AdapterView<*>?) {}

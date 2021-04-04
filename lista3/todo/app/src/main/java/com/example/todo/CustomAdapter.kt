@@ -7,11 +7,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
-import java.time.LocalDate
+import java.time.LocalDateTime
 
 class CustomAdapter(supportFragmentManager: FragmentManager) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
     private val elementsList: MutableList<ArrayList<String>> = ArrayList()
-    private val elementsListToSort: MutableList<ArrayList<String>> = ArrayList()
     private var longClickListenerAdapter: LongClickListenerAdapter? = null
     val fragmentManager = supportFragmentManager
 
@@ -89,29 +88,78 @@ class CustomAdapter(supportFragmentManager: FragmentManager) : RecyclerView.Adap
         }
         if(k > 0) {
             holder.stars[o].setImageResource(R.drawable.half_star)
+            o++
+        }
+        for(i in o until 5) {
+            holder.stars[i].setImageResource(0)
         }
     }
 
-    fun sortTime() {
-
-        for(i in 0 until elementsList.size) elementsListToSort.add(elementsList[i])
+    fun sortByTime() {
 
         var key: ArrayList<String>
         var i: Int
-        for (j in 1 until elementsListToSort.size) {
-            key = elementsListToSort[j]
+        for (j in 1 until elementsList.size) {
+            key = elementsList[j]
             i = j - 1
             while (i >= 0 &&
-                    (LocalDate.of(key[2].toInt(), key[3].toInt(), key[4].toInt()).isBefore(LocalDate.of(elementsListToSort[i][2].toInt(), elementsListToSort[i][3].toInt(), elementsListToSort[i][4].toInt())) ||
-                    LocalDate.of(key[2].toInt(), key[3].toInt(), key[4].toInt()).isEqual(LocalDate.of(elementsListToSort[i][2].toInt(), elementsListToSort[i][3].toInt(), elementsListToSort[i][4].toInt())))) {
-                elementsListToSort[i + 1] = elementsListToSort[i]
+                    (LocalDateTime.of(key[2].toInt(), key[3].toInt(), key[4].toInt(), key[5].toInt(), key[6].toInt()).isBefore(LocalDateTime.of(elementsList[i][2].toInt(), elementsList[i][3].toInt(), elementsList[i][4].toInt(), elementsList[i][5].toInt(), elementsList[i][6].toInt())) ||
+                            LocalDateTime.of(key[2].toInt(), key[3].toInt(), key[4].toInt(), key[5].toInt(), key[6].toInt()).isEqual(LocalDateTime.of(elementsList[i][2].toInt(), elementsList[i][3].toInt(), elementsList[i][4].toInt(), elementsList[i][5].toInt(), elementsList[i][6].toInt())))) {
+                elementsList[i + 1] = elementsList[i]
                 i--
             }
-            elementsListToSort[i + 1] = key
+            elementsList[i + 1] = key
         }
+        notifyDataSetChanged()
+    }
 
-        for(i in 0 until elementsList.size) delete(0)
-        for(i in 0 until elementsListToSort.size) add(elementsListToSort[i])
-        for(i in 0 until elementsListToSort.size) elementsListToSort.removeAt(0)
+    fun sortByTimeDesc() {
+
+        var key: ArrayList<String>
+        var i: Int
+        for (j in 1 until elementsList.size) {
+            key = elementsList[j]
+            i = j - 1
+            while (i >= 0 &&
+                    (LocalDateTime.of(key[2].toInt(), key[3].toInt(), key[4].toInt(), key[5].toInt(), key[6].toInt()).isAfter(LocalDateTime.of(elementsList[i][2].toInt(), elementsList[i][3].toInt(), elementsList[i][4].toInt(), elementsList[i][5].toInt(), elementsList[i][6].toInt())) ||
+                            LocalDateTime.of(key[2].toInt(), key[3].toInt(), key[4].toInt(), key[5].toInt(), key[6].toInt()).isEqual(LocalDateTime.of(elementsList[i][2].toInt(), elementsList[i][3].toInt(), elementsList[i][4].toInt(), elementsList[i][5].toInt(), elementsList[i][6].toInt())))) {
+                elementsList[i + 1] = elementsList[i]
+                i--
+            }
+            elementsList[i + 1] = key
+        }
+        notifyDataSetChanged()
+    }
+
+    fun sortByPriority() {
+
+        var key: ArrayList<String>
+        var i: Int
+        for (j in 1 until elementsList.size) {
+            key = elementsList[j]
+            i = j - 1
+            while (i >= 0 && key[7].toFloat() >= elementsList[i][7].toFloat()) {
+                elementsList[i + 1] = elementsList[i]
+                i--
+            }
+            elementsList[i + 1] = key
+        }
+        notifyDataSetChanged()
+    }
+
+    fun sortByIcon() {
+
+        var key: ArrayList<String>
+        var i: Int
+        for (j in 1 until elementsList.size) {
+            key = elementsList[j]
+            i = j - 1
+            while (i >= 0 && key[0].toInt() >= elementsList[i][0].toInt()) {
+                elementsList[i + 1] = elementsList[i]
+                i--
+            }
+            elementsList[i + 1] = key
+        }
+        notifyDataSetChanged()
     }
 }
