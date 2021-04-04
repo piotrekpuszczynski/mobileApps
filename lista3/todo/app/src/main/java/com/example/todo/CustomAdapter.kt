@@ -18,6 +18,13 @@ class CustomAdapter(supportFragmentManager: FragmentManager) : RecyclerView.Adap
         val title: TextView = view.findViewById(R.id.activityTitle)
         val date: TextView = view.findViewById(R.id.date)
         val time: TextView = view.findViewById(R.id.time)
+        val stars: ArrayList<ImageView> = arrayListOf(
+                view.findViewById(R.id.star1),
+                view.findViewById(R.id.star2),
+                view.findViewById(R.id.star3),
+                view.findViewById(R.id.star4),
+                view.findViewById(R.id.star5)
+        )
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -52,6 +59,7 @@ class CustomAdapter(supportFragmentManager: FragmentManager) : RecyclerView.Adap
         holder.title.text = elementsList[position][1]
         holder.date.text = elementsList[position][2]
         holder.time.text = elementsList[position][3]
+        setStars(elementsList[position][4].toFloat(), holder)
     }
 
     override fun getItemCount() : Int {
@@ -67,5 +75,18 @@ class CustomAdapter(supportFragmentManager: FragmentManager) : RecyclerView.Adap
         notifyItemRemoved(index)
         notifyItemRangeChanged(index, elementsList.size)
         notifyDataSetChanged()
+    }
+
+    private fun setStars(importance: Float, holder: ViewHolder) {
+        var k = importance
+        var o = 0
+        for(i in 0 until importance.toInt()) {
+            holder.stars[i].setImageResource(R.drawable.star)
+            k--
+            o++
+        }
+        if(k > 0) {
+            holder.stars[o].setImageResource(R.drawable.half_star)
+        }
     }
 }

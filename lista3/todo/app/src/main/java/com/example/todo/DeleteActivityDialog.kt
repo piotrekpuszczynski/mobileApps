@@ -11,7 +11,7 @@ class DeleteActivityDialog(customAdapter: CustomAdapter, viewType: Int) : Dialog
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
             AlertDialog.Builder(requireContext())
-                    .setMessage("Are you sure to delete activity?")
+                    .setMessage("Delete activity?")
                     .setPositiveButton("yes") { _,_ -> recycler.delete(position) }
                     .setNegativeButton("no") { _,_ -> }
                     .create()

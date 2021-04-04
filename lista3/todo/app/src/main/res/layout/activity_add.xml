@@ -83,6 +83,7 @@
                 android:id="@+id/ratingBar"
                 android:layout_width="240sp"
                 android:layout_height="match_parent"
+                android:numStars="5"
                 android:layout_gravity="center" />
 
             <TextView

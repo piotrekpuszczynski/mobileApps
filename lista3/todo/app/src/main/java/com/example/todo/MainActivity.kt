@@ -32,11 +32,13 @@ class MainActivity : AppCompatActivity() {
             val title: String = data?.getStringExtra("title").toString()
             val date: String = data?.getStringExtra("date").toString()
             val time: String = data?.getStringExtra("time").toString()
+            val importance: String = data?.getStringExtra("importance").toString()
             val element = arrayOf(
                     image,
                     title,
                     date,
-                    time
+                    time,
+                    importance
             )
 
             val adapter = findViewById<RecyclerView>(R.id.todoList).adapter as CustomAdapter

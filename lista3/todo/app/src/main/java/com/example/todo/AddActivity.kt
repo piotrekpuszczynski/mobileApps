@@ -2,6 +2,7 @@ package com.example.todo
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
@@ -43,6 +44,9 @@ class AddActivity : AppCompatActivity() {
 
         val time= "$hour:$minute"
         myIntent.putExtra("time", time)
+
+        val importance = findViewById<RatingBar>(R.id.ratingBar).rating.toString()
+        myIntent.putExtra("importance", importance)
 
         setResult(RESULT_OK, myIntent)
         finish()
