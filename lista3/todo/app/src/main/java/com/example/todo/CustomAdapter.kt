@@ -37,7 +37,7 @@ class CustomAdapter(supportFragmentManager: FragmentManager) : RecyclerView.Adap
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        longClickListenerAdapter?.setPositionAndRecycler(holder.adapterPosition, this)
+        longClickListenerAdapter?.setPositionAndRecycler(holder, this)
         longClickListenerAdapter = null
 
         val images = arrayOf(
