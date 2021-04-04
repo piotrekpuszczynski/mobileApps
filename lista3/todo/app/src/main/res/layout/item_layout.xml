@@ -82,7 +82,6 @@
         android:adjustViewBounds="true"
         android:maxWidth="20dp"
         android:maxHeight="20dp"
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/star2"
         app:layout_constraintStart_toEndOf="@+id/image"

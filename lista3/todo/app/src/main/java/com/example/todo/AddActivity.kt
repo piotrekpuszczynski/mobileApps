@@ -32,18 +32,24 @@ class AddActivity : AppCompatActivity() {
         myIntent.putExtra("title", title)
 
         val picker = findViewById<DatePicker>(R.id.enterDate)
-        val date = "${picker.dayOfMonth}/${picker.month + 1}/${picker.year}"
-        myIntent.putExtra("date", date)
+        val year = "${picker.year}"
+        myIntent.putExtra("year", year)
+
+        val month = "${picker.month + 1}"
+        myIntent.putExtra("month", month)
+
+        val day = "${picker.dayOfMonth}"
+        myIntent.putExtra("day", day)
 
         val timePicker = findViewById<TimePicker>(R.id.getTime)
         val hour = timePicker.hour.toString()
+        myIntent.putExtra("hour", hour)
+
         var minute = timePicker.minute.toString()
         if(minute.length == 1) {
             minute = "0$minute"
         }
-
-        val time= "$hour:$minute"
-        myIntent.putExtra("time", time)
+        myIntent.putExtra("minute", minute)
 
         val importance = findViewById<RatingBar>(R.id.ratingBar).rating.toString()
         myIntent.putExtra("importance", importance)
@@ -57,7 +63,7 @@ class AddActivity : AppCompatActivity() {
         ArrayAdapter.createFromResource(
                 this,
                 R.array.images,
-                android.R.layout.simple_spinner_item
+                R.layout.spinner_item
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinner.adapter = adapter

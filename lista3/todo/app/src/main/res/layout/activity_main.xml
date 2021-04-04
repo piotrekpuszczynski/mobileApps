@@ -21,8 +21,29 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/todoList"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="500dp"
         app:layout_constraintBottom_toTopOf="@+id/createNew"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sort" />
+
+    <Spinner
+        android:id="@+id/sort"
+        android:layout_width="150sp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/todoList"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSort"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/textViewSort"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sort by:"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/sort"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

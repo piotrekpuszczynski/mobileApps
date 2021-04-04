@@ -7,9 +7,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
+import java.time.LocalDate
 
 class CustomAdapter(supportFragmentManager: FragmentManager) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
-    private val elementsList: MutableList<List<String>> = ArrayList()
+    private val elementsList: MutableList<ArrayList<String>> = ArrayList()
+    private val elementsListToSort: MutableList<ArrayList<String>> = ArrayList()
     private var longClickListenerAdapter: LongClickListenerAdapter? = null
     val fragmentManager = supportFragmentManager
 
@@ -57,16 +59,16 @@ class CustomAdapter(supportFragmentManager: FragmentManager) : RecyclerView.Adap
         val i: Int = elementsList[position][0].toInt()
         holder.image.setImageResource(images[i])
         holder.title.text = elementsList[position][1]
-        holder.date.text = elementsList[position][2]
-        holder.time.text = elementsList[position][3]
-        setStars(elementsList[position][4].toFloat(), holder)
+        holder.date.text = elementsList[position][2] + "/" + elementsList[position][3] + "/" + elementsList[position][4]
+        holder.time.text = elementsList[position][5] + ":" + elementsList[position][6]
+        setStars(elementsList[position][7].toFloat(), holder)
     }
 
     override fun getItemCount() : Int {
         return elementsList.size
     }
 
-    fun add(data: List<String>) {
+    fun add(data: ArrayList<String>) {
         elementsList.add(data)
     }
 
@@ -88,5 +90,28 @@ class CustomAdapter(supportFragmentManager: FragmentManager) : RecyclerView.Adap
         if(k > 0) {
             holder.stars[o].setImageResource(R.drawable.half_star)
         }
+    }
+
+    fun sortTime() {
+
+        for(i in 0 until elementsList.size) elementsListToSort.add(elementsList[i])
+
+        var key: ArrayList<String>
+        var i: Int
+        for (j in 1 until elementsListToSort.size) {
+            key = elementsListToSort[j]
+            i = j - 1
+            while (i >= 0 &&
+                    (LocalDate.of(key[2].toInt(), key[3].toInt(), key[4].toInt()).isBefore(LocalDate.of(elementsListToSort[i][2].toInt(), elementsListToSort[i][3].toInt(), elementsListToSort[i][4].toInt())) ||
+                    LocalDate.of(key[2].toInt(), key[3].toInt(), key[4].toInt()).isEqual(LocalDate.of(elementsListToSort[i][2].toInt(), elementsListToSort[i][3].toInt(), elementsListToSort[i][4].toInt())))) {
+                elementsListToSort[i + 1] = elementsListToSort[i]
+                i--
+            }
+            elementsListToSort[i + 1] = key
+        }
+
+        for(i in 0 until elementsList.size) delete(0)
+        for(i in 0 until elementsListToSort.size) add(elementsListToSort[i])
+        for(i in 0 until elementsListToSort.size) elementsListToSort.removeAt(0)
     }
 }

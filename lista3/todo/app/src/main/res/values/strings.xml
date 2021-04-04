@@ -15,4 +15,11 @@
         <item>work</item>
         <item>workout</item>
     </array>
+
+    <array name="sort">
+        <item>most important</item>
+        <item>time</item>
+        <item>time desc</item>
+        <item>icon</item>
+    </array>
 </resources>
