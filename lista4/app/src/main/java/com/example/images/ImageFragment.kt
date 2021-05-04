@@ -59,6 +59,12 @@ class ImageFragment : Fragment() {
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT)
+            activity?.finish()
+    }
+
     fun show(uri: String?, stars: String?, id: String?) {
         if (uri != null && stars != null && id != null) {
             imageID = id
