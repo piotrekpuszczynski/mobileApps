@@ -1,4 +1,4 @@
-package com.example.pong
+package com.example.pong.game
 
 import android.annotation.SuppressLint
 import android.app.Activity

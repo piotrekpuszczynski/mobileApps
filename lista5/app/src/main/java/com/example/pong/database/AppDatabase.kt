@@ -1,4 +1,4 @@
-package com.example.pong
+package com.example.pong.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.room.Room
+import com.example.pong.database.AppDatabase
+import com.example.pong.database.Player
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.lang.Exception
@@ -40,7 +42,8 @@ class MainActivity : AppCompatActivity() {
             } R.id.multiplayer -> {
 
             } else -> {
-
+                val intent = Intent(this, StatisticsActivity()::class.java)
+                startActivity(intent)
             }
         }
 

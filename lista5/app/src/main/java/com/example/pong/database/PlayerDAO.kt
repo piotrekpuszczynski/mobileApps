@@ -1,4 +1,4 @@
-package com.example.pong
+package com.example.pong.database
 
 import androidx.room.Dao
 import androidx.room.Insert

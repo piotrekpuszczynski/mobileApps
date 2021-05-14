@@ -1,4 +1,4 @@
-package com.example.pong
+package com.example.pong.game
 
 import android.view.SurfaceHolder
 
