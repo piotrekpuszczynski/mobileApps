@@ -1,7 +1,9 @@
 package com.example.pong
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
@@ -9,6 +11,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
+import androidx.core.view.MotionEventCompat
 import com.example.pong.shapes.Ball
 import com.example.pong.shapes.Rect
 
@@ -21,7 +24,10 @@ class GameView(context: Context, attributeSet: AttributeSet) :
     private var playerTwo = Rect()
     private var playerOnePoints = 0
     private var playerTwoPoints = 0
-    private val pointsToWin = 5
+
+    companion object {
+        const val POINTS = 3
+    }
 
     private var dx = 0f
     private var dy = 0f
@@ -31,9 +37,7 @@ class GameView(context: Context, attributeSet: AttributeSet) :
         thread = GameThread(holder, this)
     }
 
-    override fun surfaceChanged(holder : SurfaceHolder, format: Int, width: Int, height: Int) {
-
-    }
+    override fun surfaceChanged(holder : SurfaceHolder, format: Int, width: Int, height: Int) {}
 
     override fun surfaceDestroyed(holder : SurfaceHolder) {
         thread.stopGame()
@@ -62,12 +66,24 @@ class GameView(context: Context, attributeSet: AttributeSet) :
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
-        if (event?.y!! > height / 2) {
-            playerOne.update(event.x)
-        } else {
-            playerTwo.update(event.x)
+        if (thread.getRunning()) {
+            if (event?.y!! > height / 2) {
+                playerOne.update(event.x)
+            } else {
+                playerTwo.update(event.x)
+            }
+        } else if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
+            val intent = Intent()
+            intent.putExtra("playerOnePoints", playerOnePoints.toString())
+            intent.putExtra("playerTwoPoints", playerTwoPoints.toString())
+            if (playerOnePoints == POINTS) {
+                intent.putExtra("won", "player one")
+            } else {
+                intent.putExtra("won", "player two")
+            }
+            (context as Activity).setResult(Activity.RESULT_OK, intent)
+            (context as Activity).finish()
         }
-
         return true
     }
 
@@ -75,8 +91,8 @@ class GameView(context: Context, attributeSet: AttributeSet) :
         super.draw(canvas)
 
         if (canvas == null) return
-
-        val white = Paint().apply {
+        
+        var white = Paint().apply {
             color = Color.WHITE
             textSize = (width / 3).toFloat()
             alpha = 80
@@ -91,6 +107,29 @@ class GameView(context: Context, attributeSet: AttributeSet) :
         ball.draw(canvas)
         playerOne.draw(canvas)
         playerTwo.draw(canvas)
+
+        if (!thread.getRunning()) {
+
+            white = Paint().apply {
+                color = Color.WHITE
+                textSize = (width / 8).toFloat()
+                textAlign = Paint.Align.CENTER
+            }
+
+            val player : String = if (playerTwoPoints == POINTS) "Player two"
+            else "Player one"
+
+            canvas.drawText("$player won", (width / 2).toFloat(), (height / 2).toFloat(), white)
+
+            white = Paint().apply {
+                color = Color.WHITE
+                textSize = (width / 18).toFloat()
+                textAlign = Paint.Align.CENTER
+                alpha = 150
+            }
+            canvas.drawText("click anywhere to continue", (width / 2).toFloat(), (height / 2 + width / 14).toFloat(), white)
+
+        }
     }
 
     fun update(canvas : Canvas) {
@@ -108,15 +147,13 @@ class GameView(context: Context, attributeSet: AttributeSet) :
         if (ball.y < 0) {
             playerOnePoints++
             ball.setStart((height / 2).toFloat())
-        } else if (ball.y > height) {
+        } else if (ball.y + ball.s > height) {
             playerTwoPoints++
             ball.setStart((height / 2).toFloat())
         }
 
-        if (playerOnePoints == pointsToWin) {
-
-        } else if (playerTwoPoints == pointsToWin) {
-
+        if (playerOnePoints == POINTS || playerTwoPoints == POINTS) {
+            thread.stopGame()
         }
     }
 }

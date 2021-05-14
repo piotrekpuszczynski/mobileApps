@@ -6,20 +6,23 @@ class GameThread(private val surfaceHolder: SurfaceHolder, private val gameView:
     Thread() {
 
     private var running = false
-    private val targetFPS = 25
+
+    companion object {
+        const val FPS = 50
+    }
 
     override fun run() {
         var startTime : Long
         var timeMillis : Long
         var waitTime : Long
-        val targetTime = (1000 / targetFPS).toLong()
+        val targetTime = (1000 / FPS).toLong()
 
         while (running) {
             startTime = System.nanoTime()
             val canvas = surfaceHolder.lockCanvas()
+            gameView.check()
             gameView.draw(canvas)
             gameView.update(canvas)
-            gameView.check()
             surfaceHolder.unlockCanvasAndPost(canvas)
             timeMillis = (System.nanoTime() - startTime) / 1000000
             waitTime = targetTime - timeMillis
@@ -36,5 +39,9 @@ class GameThread(private val surfaceHolder: SurfaceHolder, private val gameView:
 
     fun stopGame() {
         running = false
+    }
+
+    fun getRunning() : Boolean {
+        return running
     }
 }

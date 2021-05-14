@@ -7,5 +7,57 @@
     tools:context=".MainActivity">
 
 
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@color/black"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            android:gravity="center"
+            android:text="Pong game"
+            android:textColor="@color/white"
+            app:autoSizeTextType="uniform"
+            app:autoSizeMinTextSize="12sp"
+            app:autoSizeMaxTextSize="50sp"
+            android:textAlignment="center" />
+
+        <Button
+            android:id="@+id/singleplayer"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.1"
+            android:backgroundTint="@color/white"
+            android:onClick="click"
+            android:textColor="@color/black"
+            android:text="Single player" />
+
+        <Button
+            android:id="@+id/multiplayer"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.1"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/black"
+            android:text="Multi player" />
+
+        <Button
+            android:id="@+id/statistics"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.1"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/black"
+            android:text="Statistics" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
