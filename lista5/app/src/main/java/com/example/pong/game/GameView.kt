@@ -3,7 +3,6 @@ package com.example.pong.game
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
@@ -12,12 +11,18 @@ import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import androidx.core.view.MotionEventCompat
+import androidx.room.Room
+import com.example.pong.database.AppDatabase
 import com.example.pong.shapes.Ball
 import com.example.pong.shapes.Rect
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import java.lang.Exception
 
 class GameView(context: Context, attributeSet: AttributeSet) :
     SurfaceView(context, attributeSet), SurfaceHolder.Callback {
 
+    private lateinit var database : AppDatabase
     private val thread : GameThread
     private val ball = Ball()
     private var playerOne = Rect()
@@ -73,15 +78,25 @@ class GameView(context: Context, attributeSet: AttributeSet) :
                 playerTwo.update(event.x)
             }
         } else if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
-            val intent = Intent()
-            intent.putExtra("playerOnePoints", playerOnePoints.toString())
-            intent.putExtra("playerTwoPoints", playerTwoPoints.toString())
-            if (playerOnePoints == POINTS) {
-                intent.putExtra("won", "player one")
-            } else {
-                intent.putExtra("won", "player two")
+
+            GlobalScope.launch {
+                try {
+                    database = Room.databaseBuilder(
+                        (context as Activity),
+                        AppDatabase::class.java,
+                        "players.db"
+                    ).build()
+
+                    database.playerDao().updatePoints("player one", playerOnePoints)
+                    database.playerDao().updatePoints("player two", playerTwoPoints)
+                    if (playerOnePoints == POINTS) {
+                        database.playerDao().updateWinner("player one", 1)
+                    } else {
+                        database.playerDao().updateWinner("player two", 1)
+                    }
+
+                } catch (e: Exception) {}
             }
-            (context as Activity).setResult(Activity.RESULT_OK, intent)
             (context as Activity).finish()
         }
         return true
